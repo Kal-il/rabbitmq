@@ -5,7 +5,7 @@ def my_callback(ch, method, properties, body):
 
 connection_parameters = pika.ConnectionParameters(
     host = "localhost",
-    port = 15672,
+    port = 5672,
     credentials = pika.PlainCredentials(
         username = "guest",
         password = "guest"
@@ -20,6 +20,8 @@ chanel.queue_declare(
 chanel.basic_consume(
     queue = "data_queue",
     auto_ack=True,
-    on_message_callback=my_callback
+    on_message_callback=my_callback # uma ação condicional que será executada quando uma mensagem for recebida
 )
 
+print(f"Listen rabbitmq on port 5672")
+chanel.start_consuming() # inicia o processo de escuta do rabbitmq
