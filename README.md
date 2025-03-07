@@ -20,4 +20,18 @@ rabbitmqctl start
 
 
 ## Notas
+RabbitMQ gerencia o **Protocolo AMQP**  (Advanced Method Queue Protocol)
+
+Producer -> manda mensagem
+Consumer -> consme mensagem   
+
+(via de mão unica)
+
+```
+Producer --> Exchange --> Queue --> Consumer
+                            ^          |
+                            |__________|
+                                ACK
+```
+
 
