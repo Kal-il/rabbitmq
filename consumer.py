@@ -6,8 +6,9 @@ class RabbitmqConsumer:
         self.port = 5672
         self.username = "guest"
         self.password = "guest"
-        self.queue = "data_queue"
+        self.queue = "data_queue3"
         self.__callback = callback
+        self.__chanel = self.__create_channel()
         
     def __create_channel(self):
         connection_parameters = pika.ConnectionParameters(
@@ -22,7 +23,10 @@ class RabbitmqConsumer:
         chanel = pika.BlockingConnection(connection_parameters).channel()
         chanel.queue_declare(
             queue = self.queue,
-            durable = True
+            durable = True,
+            arguments = {
+                "x-overflow": "reject-publish"
+            }
         )
         chanel.basic_consume(
             queue = self.queue,
@@ -33,7 +37,7 @@ class RabbitmqConsumer:
         return chanel
     
     def start_consuming(self):
-        print(f"Listen rabbitmq on port 5672")
+        print("Listen rabbitmq on port 5672")
         self.__chanel.start_consuming() # inicia o processo de escuta do rabbitmq
         
 def minha_callback(ch, method, properties, body):
